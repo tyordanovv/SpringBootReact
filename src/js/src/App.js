@@ -5,6 +5,8 @@ import { getAllStudents } from "./client";
 import { Table, Avatar, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
+const getIcon = () => <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
 class App extends Component {
   state = {
     students: [],
@@ -31,18 +33,17 @@ class App extends Component {
   };
 
   render() {
-    const state = this.state;
-    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+    const { students, isFetching } = this.state;
 
-    if (state.isFetching) {
+    if (isFetching) {
       return (
         <Container>
-          <Spin indicator={antIcon} />
+          <Spin indicator={getIcon()} />
         </Container>
       );
     }
 
-    if (state.students && state.students.length) {
+    if (students && students.length) {
       const columns = [
         {
           title: "",
@@ -87,7 +88,7 @@ class App extends Component {
       return (
         <Container>
           <Table
-            dataSource={state.students}
+            dataSource={students}
             columns={columns}
             pagination={false}
             rowKey="studentId"
