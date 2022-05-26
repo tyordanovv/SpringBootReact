@@ -1,5 +1,6 @@
 package bg.yordanov.springbootreact.student;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,23 +12,15 @@ import java.util.UUID;
 @RequestMapping("students")
 public class StudentController {
 
+    private final StudentService studentService;
+
+    @Autowired
+    public StudentController(StudentService studentService){
+        this.studentService = studentService;
+    }
+
     @GetMapping
     public List<Student> getAllStudents() {
-        return List.of(
-                new Student(
-                        UUID.randomUUID(),
-                        "Tihomir",
-                        "Yordanov",
-                        "tisho@gmal.com",
-                        Student.Gender.MALE
-                ),
-                new Student(
-                        UUID.randomUUID(),
-                        "Sami",
-                        "Samuilov",
-                        "sami@gmal.com",
-                        Student.Gender.MALE
-                )
-        );
+        return studentService.getAllStudents();
     }
 }
