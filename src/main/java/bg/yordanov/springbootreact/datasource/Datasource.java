@@ -11,7 +11,7 @@ public class Datasource {
 
     @Bean
     @ConfigurationProperties("app.datasource")
-    public HikariDataSource hikariDataSource(){
+    public HikariDataSource dataSource() {
         return DataSourceBuilder
                 .create()
                 .type(HikariDataSource.class)
