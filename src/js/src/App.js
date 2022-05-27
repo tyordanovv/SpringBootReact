@@ -1,16 +1,25 @@
 import React, { Component } from "react";
 import Container from "./Container";
+import Footer from "./Footer";
 import "./App.css";
 import { getAllStudents } from "./client";
-import { Table, Avatar, Spin } from "antd";
+import { Table, Avatar, Spin, Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const getIcon = () => <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
 class App extends Component {
   state = {
     students: [],
     isFetching: false,
+    isStudentModalVisible: false,
+  };
+
+  showModal = () => {
+    this.setState({ isStudentModalVisible: true });
+  };
+
+  closeModal = () => {
+    this.setState({ isStudentModalVisible: false });
   };
 
   componentDidMount() {
@@ -33,7 +42,7 @@ class App extends Component {
   };
 
   render() {
-    const { students, isFetching } = this.state;
+    const { students, isFetching, isStudentModalVisible } = this.state;
 
     if (isFetching) {
       return (
@@ -93,10 +102,22 @@ class App extends Component {
             pagination={false}
             rowKey="studentId"
           />
+          <Modal
+            title="Add new student"
+            visible={isStudentModalVisible}
+            onOk={this.closeModal}
+            onCancel={this.closeModal}
+            width={1000}
+          >
+            <h1>Hello</h1>
+          </Modal>
+          <Footer
+            numberOfStudents={students.length}
+            handleAddStudentEvent={this.showModal}
+          ></Footer>
         </Container>
       );
     }
-    return <h1>No students found</h1>;
   }
 }
 
