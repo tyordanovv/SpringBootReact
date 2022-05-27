@@ -3,6 +3,7 @@ import Container from "./Container";
 import Footer from "./Footer";
 import "./App.css";
 import { getAllStudents } from "./client";
+import AddStudentForm from "./forms/AddStudentForm";
 import { Table, Avatar, Spin, Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
@@ -109,12 +110,12 @@ class App extends Component {
             onCancel={this.closeModal}
             width={1000}
           >
-            <h1>Hello</h1>
+            <AddStudentForm />
           </Modal>
           <Footer
             numberOfStudents={students.length}
             handleAddStudentEvent={this.showModal}
-          ></Footer>
+          />
         </Container>
       );
     }

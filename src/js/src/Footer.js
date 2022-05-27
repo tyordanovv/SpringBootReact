@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import { Avatar, Button } from "antd";
 import Container from "./Container";
@@ -18,16 +17,6 @@ const Footer = (props) => (
       <Button type="primary" onClick={() => props.handleAddStudentEvent()}>
         Add new student
       </Button>
-=======
-import { Button } from "antd";
-import React from "react";
-import Container from "./Container";
-
-const Footer = (props) => (
-  <div>
-    <Container>
-      <Button type="primary">Add new student</Button>
->>>>>>> frontend
     </Container>
   </div>
 );
