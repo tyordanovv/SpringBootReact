@@ -57,6 +57,7 @@ const AddStudentForm = () => (
         handleSubmit,
         isSubmitting,
         submitForm,
+        isValid,
         /* and other goodies */
       }) => (
         <form onSubmit={handleSubmit}>
@@ -108,7 +109,7 @@ const AddStudentForm = () => (
           <Button
             onClick={() => submitForm()}
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting | (touched && !isValid)}
           >
             Submit
           </Button>
