@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import { Input, Button, Tag } from "antd";
+import { addNewStudent } from "../client";
 
 const InputBottomMargin = { marginBottom: "10px" };
 
@@ -42,6 +43,9 @@ const AddStudentForm = () => (
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
+        // addNewStudent(student).then(() => {
+        //   alert(JSON.stringify(student));
+        // });
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
@@ -115,6 +119,7 @@ const AddStudentForm = () => (
           </Button>
         </form>
       )}
+      !
     </Formik>
   </div>
 );

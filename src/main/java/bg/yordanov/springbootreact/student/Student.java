@@ -1,5 +1,7 @@
 package bg.yordanov.springbootreact.student;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class Student {
@@ -11,11 +13,11 @@ public class Student {
     private final Gender gender;
 
     public Student(
-            UUID studentId,
-            String firstName,
-            String lastName,
-            String email,
-            Gender gender) {
+            @JsonProperty("studentId") UUID studentId,
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
+            @JsonProperty("email") String email,
+            @JsonProperty("gender") Gender gender) {
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,6 +43,17 @@ public class Student {
 
     public Gender getGender() {
         return gender;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentId=" + studentId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", gender=" + gender +
+                '}';
     }
 
     enum Gender {
