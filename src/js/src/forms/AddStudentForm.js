@@ -1,8 +1,14 @@
 import React from "react";
 import { Formik } from "formik";
-import { Input, Button } from "antd";
+import { Input, Button, Tag } from "antd";
 
 const InputBottomMargin = { marginBottom: "10px" };
+
+const tagStyle = {
+  backgroundColor: "#f50",
+  color: "white",
+  ...InputBottomMargin,
+};
 
 const AddStudentForm = () => (
   <div>
@@ -61,7 +67,9 @@ const AddStudentForm = () => (
             value={values.firstName}
             placeholder="First Name. E.g John"
           />
-          {errors.firstName && touched.firstName && errors.firstName}
+          {errors.firstName && touched.firstName && (
+            <Tag style={tagStyle}>{errors.firstName}</Tag>
+          )}
           <Input
             style={InputBottomMargin}
             name="lastName"
@@ -70,7 +78,9 @@ const AddStudentForm = () => (
             value={values.lastName}
             placeholder="Last Name. E.g Smith"
           />
-          {errors.lastName && touched.lastName && errors.lastName}
+          {errors.lastName && touched.lastName && (
+            <Tag style={tagStyle}>{errors.lastName}</Tag>
+          )}
           <Input
             style={InputBottomMargin}
             name="email"
@@ -80,7 +90,9 @@ const AddStudentForm = () => (
             value={values.email}
             placeholder="Email E.g example@gmail.com"
           />
-          {errors.email && touched.email && errors.email}
+          {errors.email && touched.email && (
+            <Tag style={tagStyle}>{errors.email}</Tag>
+          )}
           <Input
             style={InputBottomMargin}
             name="gender"
@@ -89,7 +101,9 @@ const AddStudentForm = () => (
             value={values.gender}
             placeholder="Gender. E.g Male or Female"
           />
-          {errors.gender && touched.gender && errors.gender}
+          {errors.gender && touched.gender && (
+            <Tag style={tagStyle}>{errors.gender}</Tag>
+          )}
           <Button type="submit" disabled={isSubmitting}>
             Submit
           </Button>
