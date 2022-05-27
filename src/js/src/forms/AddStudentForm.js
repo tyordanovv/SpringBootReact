@@ -2,22 +2,37 @@ import React from "react";
 import { Formik } from "formik";
 import { Input, Button } from "antd";
 
-const InputBottomMargin = { marginBottom: "5px" };
+const InputBottomMargin = { marginBottom: "10px" };
 
 const AddStudentForm = () => (
   <div>
     <h1>Anywhere in your app!</h1>
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ firstName: "", lastName: "", email: "", gender: "" }}
       validate={(values) => {
         const errors = {};
+
+        if (!values.firstName) {
+          errors.firstName = "First Name Required";
+        }
+        if (!values.lastName) {
+          errors.lastName = "Last Name Required";
+        }
         if (!values.email) {
-          errors.email = "Required";
+          errors.email = "Email Required";
         } else if (
           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
         ) {
           errors.email = "Invalid email address";
         }
+        if (!values.gender) {
+          errors.gender = "Gender Requiered";
+        } else if (
+          !["Male", "male", "Female", "FEMALE"].includes(values.gender)
+        ) {
+          errors.gender = "Gender must be MALE, male, FEMALE or female";
+        }
+
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
@@ -65,7 +80,7 @@ const AddStudentForm = () => (
             value={values.email}
             placeholder="Email E.g example@gmail.com"
           />
-          {errors.firstName && touched.firstName && errors.firstName}
+          {errors.email && touched.email && errors.email}
           <Input
             style={InputBottomMargin}
             name="gender"
@@ -74,7 +89,7 @@ const AddStudentForm = () => (
             value={values.gender}
             placeholder="Gender. E.g Male or Female"
           />
-          {errors.firstName && touched.firstName && errors.firstName}
+          {errors.gender && touched.gender && errors.gender}
           <Button type="submit" disabled={isSubmitting}>
             Submit
           </Button>
