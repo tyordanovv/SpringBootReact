@@ -56,6 +56,7 @@ const AddStudentForm = () => (
         handleBlur,
         handleSubmit,
         isSubmitting,
+        submitForm,
         /* and other goodies */
       }) => (
         <form onSubmit={handleSubmit}>
@@ -104,7 +105,11 @@ const AddStudentForm = () => (
           {errors.gender && touched.gender && (
             <Tag style={tagStyle}>{errors.gender}</Tag>
           )}
-          <Button type="submit" disabled={isSubmitting}>
+          <Button
+            onClick={() => submitForm()}
+            type="submit"
+            disabled={isSubmitting}
+          >
             Submit
           </Button>
         </form>
