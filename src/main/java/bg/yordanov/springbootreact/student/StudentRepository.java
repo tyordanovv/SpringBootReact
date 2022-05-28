@@ -31,6 +31,25 @@ public class StudentRepository {
         return jdbcTemplate.query(sql, getStudentRowMapper());
     }
 
+    public int saveStudent(UUID id, Student student) {
+        String sql = "" +
+                "INSERT INTO student (" +
+                " student_id, " +
+                " first_name, " +
+                " last_name, " +
+                " email, " +
+                " gender) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(
+                sql,
+                id,
+                student.getFirstName(),
+                student.getLastName(),
+                student.getEmail(),
+                student.getGender().name().toUpperCase()
+        );
+    }
+
     private RowMapper<Student> getStudentRowMapper() {
         return (resultSet, i) -> {
             String idSTR = resultSet.getString("student_id");

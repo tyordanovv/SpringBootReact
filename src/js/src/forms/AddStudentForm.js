@@ -35,21 +35,18 @@ const AddStudentForm = () => (
         if (!values.gender) {
           errors.gender = "Gender Requiered";
         } else if (
-          !["Male", "male", "Female", "FEMALE"].includes(values.gender)
+          !["MALE", "male", "Female", "FEMALE"].includes(values.gender)
         ) {
           errors.gender = "Gender must be MALE, male, FEMALE or female";
         }
 
         return errors;
       }}
-      onSubmit={(values, { setSubmitting }) => {
-        // addNewStudent(student).then(() => {
-        //   alert(JSON.stringify(student));
-        // });
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+      onSubmit={(student, { setSubmitting }) => {
+        addNewStudent(student).then(() => {
+          this.props.onSuccess();
           setSubmitting(false);
-        }, 400);
+        });
       }}
     >
       {({
@@ -119,7 +116,6 @@ const AddStudentForm = () => (
           </Button>
         </form>
       )}
-      !
     </Formik>
   </div>
 );
