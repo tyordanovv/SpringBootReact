@@ -4,7 +4,8 @@ import Footer from "./Footer";
 import "./App.css";
 import { getAllStudents } from "./client";
 import AddStudentForm from "./forms/AddStudentForm";
-import { Table, Avatar, Spin, Modal } from "antd";
+import { errorNotification } from "./Notification";
+import { Table, Avatar, Spin, Modal, Empty } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const getIcon = () => <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -31,19 +32,51 @@ class App extends Component {
     this.setState({
       isFetching: true,
     });
-    getAllStudents().then((res) =>
-      res.json().then((students) => {
-        console.log(students);
+    getAllStudents()
+      .then((res) =>
+        res.json().then((students) => {
+          console.log(students);
+          this.setState({
+            students,
+            isFetching: false,
+          });
+        })
+      )
+      .catch((error) => {
+        const message = error.error.message;
+        const description = error.error.error;
+
+        errorNotification(message, description);
         this.setState({
-          students,
           isFetching: false,
         });
-      })
-    );
+      });
   };
 
   render() {
     const { students, isFetching, isStudentModalVisible } = this.state;
+    const footerWithButton = () => (
+      <div>
+        <Modal
+          title="Add new student"
+          visible={isStudentModalVisible}
+          onOk={this.closeModal}
+          onCancel={this.closeModal}
+          width={1000}
+        >
+          <AddStudentForm
+            onSuccess={() => {
+              this.closeModal();
+              this.fetchStudents();
+            }}
+          />
+        </Modal>
+        <Footer
+          numberOfStudents={students.length}
+          handleAddStudentEvent={this.showModal}
+        />
+      </div>
+    );
 
     if (isFetching) {
       return (
@@ -104,27 +137,23 @@ class App extends Component {
             pagination={false}
             rowKey="studentId"
           />
-          <Modal
-            title="Add new student"
-            visible={isStudentModalVisible}
-            onOk={this.closeModal}
-            onCancel={this.closeModal}
-            width={1000}
-          >
-            <AddStudentForm
-              onSuccess={() => {
-                this.closeModal();
-                this.fetchStudents();
-              }}
-            />
-          </Modal>
-          <Footer
-            numberOfStudents={students.length}
-            handleAddStudentEvent={this.showModal}
-          />
+          {footerWithButton()}
         </Container>
       );
     }
+
+    return (
+      <Container>
+        <Empty
+          description={
+            <span>
+              <h1>No Students found</h1>
+            </span>
+          }
+        />
+        {footerWithButton()}
+      </Container>
+    );
   }
 }
 
