@@ -1,5 +1,6 @@
 package bg.yordanov.springbootreact.student;
 
+import bg.yordanov.springbootreact.exeption.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,8 @@ public class StudentController {
 
     @GetMapping
     public List<Student> getAllStudents() {
-        throw new IllegalStateException("Opps nqma studenti");
+        throw new ApiRequestException("Ops no students but with custom exception");
+//        throw new IllegalStateException("Opps nqma studenti");
 //        return studentService.getAllStudents();
     }
 
