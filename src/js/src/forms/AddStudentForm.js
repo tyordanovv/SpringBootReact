@@ -11,9 +11,8 @@ const tagStyle = {
   ...InputBottomMargin,
 };
 
-const AddStudentForm = () => (
+const AddStudentForm = (props) => (
   <div>
-    <h1>Anywhere in your app!</h1>
     <Formik
       initialValues={{ firstName: "", lastName: "", email: "", gender: "" }}
       validate={(values) => {
@@ -44,7 +43,7 @@ const AddStudentForm = () => (
       }}
       onSubmit={(student, { setSubmitting }) => {
         addNewStudent(student).then(() => {
-          this.props.onSuccess();
+          props.onSuccess();
           setSubmitting(false);
         });
       }}
