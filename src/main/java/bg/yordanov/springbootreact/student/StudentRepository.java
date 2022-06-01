@@ -2,12 +2,14 @@ package bg.yordanov.springbootreact.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -39,7 +41,7 @@ public class StudentRepository {
                 " last_name, " +
                 " email, " +
                 " gender) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?::gender)";
         return jdbcTemplate.update(
                 sql,
                 id,
@@ -83,5 +85,45 @@ public class StudentRepository {
                 new Object[] {email},
                 (resultSet, i) -> resultSet.getBoolean(1)
         ));
+    }
+
+    public List<StudentCourse> selectAllStudentCourses(UUID studentId) {
+        String sql = "" +
+                "SELECT " +
+                " student.student_id, " +
+                " course.course_id, " +
+                " course.course_name, " +
+                " course.description, " +
+                " course.department, " +
+                " course.teacher_name, " +
+                " studnet_course.start_date, " +
+                " studnet_course.ent_date, " +
+                " studnet_course.grade " +
+                "FROM student " +
+                "JOIN studnet_course    USING (student_id) " +
+                "JOIN course            USING (course_id) " +
+                "WHERE student.student_id = ?";
+        return jdbcTemplate.query(
+                sql,
+                new Object[]{studentId},
+                mapStudentCourseFromDb()
+        );
+    }
+
+    private RowMapper<StudentCourse> mapStudentCourseFromDb() {
+        return (resultSet, i) ->
+                new StudentCourse(
+                        UUID.fromString(resultSet.getString("student_id")),
+                        UUID.fromString(resultSet.getString("course_id")),
+                        resultSet.getString("course_name"),
+                        resultSet.getString("description"),
+                        resultSet.getString("department"),
+                        resultSet.getString("teacher_name"),
+                        resultSet.getDate("start_date").toLocalDate(),
+                        resultSet.getDate("ent_date").toLocalDate(),
+                        Optional.ofNullable((resultSet.getString("grade")))
+                                .map(Integer::parseInt)
+                                .orElse(null)
+                );
     }
 }

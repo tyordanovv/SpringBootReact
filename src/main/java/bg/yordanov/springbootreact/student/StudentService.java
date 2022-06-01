@@ -43,4 +43,8 @@ public class StudentService {
 
         studentRepository.saveStudent(id, student);
     }
+
+    public List<StudentCourse> getAllCoursesForStudent(UUID studentId) {
+        return studentRepository.selectAllStudentCourses(studentId);
+    }
 }
