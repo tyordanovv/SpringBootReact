@@ -44,7 +44,7 @@ class App extends Component {
       )
       .catch((error) => {
         const message = error.error.message;
-        const description = error.error.error;
+        const description = error.error.httpStatus;
 
         errorNotification(message, description);
         this.setState({
@@ -68,6 +68,12 @@ class App extends Component {
             onSuccess={() => {
               this.closeModal();
               this.fetchStudents();
+            }}
+            onFailure={(err) => {
+              const message = err.error.message;
+              const description = err.error.httpStatus;
+
+              errorNotification(message, description);
             }}
           />
         </Modal>

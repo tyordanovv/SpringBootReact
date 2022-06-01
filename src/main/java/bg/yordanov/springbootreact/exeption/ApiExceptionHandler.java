@@ -25,4 +25,5 @@ public class ApiExceptionHandler {
         //2 return response entity
         return new ResponseEntity<>(apiException, badRequest);
     }
+
 }
